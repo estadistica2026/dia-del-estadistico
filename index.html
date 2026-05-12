@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día del Estadístico — 12 de Mayo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&family=Georgia&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.8; overflow-x: hidden; }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #1a237e, #00bcd4); z-index: 1000; width: 0%; }
+        .bg-deco { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bg-deco .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.10; }
+        .bg-deco .orb:nth-child(1) { width: 600px; height: 600px; background: #1a237e; top: -200px; left: -200px; }
+        .bg-deco .orb:nth-child(2) { width: 500px; height: 500px; background: #00bcd4; bottom: -150px; right: -150px; }
+        .bg-deco .orb:nth-child(3) { width: 400px; height: 400px; background: #ff6f00; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; }
+        .nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 0.9rem 1.5rem; background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(48, 54, 61, 0.5); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+        .nav a { color: #8b949e; text-decoration: none; font-size: 0.78rem; font-weight: 500; transition: color 0.3s; padding: 0.2rem 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+        .nav a:hover { color: #00bcd4; border-bottom-color: #00bcd4; }
+        .section { padding: 5rem 1.5rem; position: relative; z-index: 1; }
+        .container { max-width: 960px; margin: 0 auto; }
+        .section-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .section-label .line { width: 40px; height: 2px; background: #00bcd4; opacity: 0.5; flex-shrink: 0; }
+        .section-label span { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; color: #00bcd4; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 800; margin-bottom: 1.5rem; line-height: 1.2; }
+        .section-text { color: #8b949e; font-size: 0.98rem; line-height: 1.9; margin-bottom: 1.25rem; }
+        .section-text strong { color: #e6edf3; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; position: relative; z-index: 1; }
+        .hero-inner { max-width: 850px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 188, 212, 0.1); border: 1px solid rgba(0, 188, 212, 0.3); padding: 0.5rem 1.25rem; border-radius: 50px; font-size: 0.78rem; color: #00bcd4; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2rem; }
+        .hero-badge .dot { width: 8px; height: 8px; background: #00bcd4; border-radius: 50%; animation: blink 2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero h1 span { background: linear-gradient(135deg, #1a237e, #00bcd4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-phrase { font-family: 'Georgia', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.35rem); color: #ffa040; max-width: 700px; margin: 0 auto 1.25rem; line-height: 1.7; position: relative; padding: 0 2rem; }
+        .hero-phrase::before { content: '"'; position: absolute; left: -5px; top: -10px; font-size: 3rem; color: rgba(255, 160, 64, 0.3); font-family: 'Playfair Display', serif; }
+        .hero-phrase::after { content: '"'; font-size: 3rem; color: rgba(255, 160, 64, 0.3); font-family: 'Playfair Display', serif; }
+        .hero p { font-size: 1.05rem; color: #8b949e; max-width: 600px; margin: 0 auto; line-height: 1.8; }
+        .hero-line { width: 60px; height: 3px; background: linear-gradient(90deg, #1a237e, #00bcd4); margin: 2.5rem auto 0; border-radius: 2px; }
+        .panama-badge { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(255, 111, 0, 0.1); border: 1px solid rgba(255, 111, 0, 0.3); padding: 0.6rem 1.5rem; border-radius: 12px; margin-top: 1.5rem; font-size: 0.9rem; color: #ffa040; font-weight: 600; }
+        .panama-badge .flag { font-size: 1.3rem; }
+        .card { background: rgba(22, 27, 34, 0.7); border: 1px solid rgba(48, 54, 61, 0.5); border-radius: 18px; padding: 2rem; margin-top: 2rem; position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #1a237e, #00bcd4); }
+        .card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .card p { color: #8b949e; line-height: 1.85; font-size: 0.95rem; }
+        .card p strong { color: #e6edf3; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .def-card { background: rgba(22, 27, 34, 0.5); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 16px; padding: 2rem; }        .def-card:hover { border-color: rgba(0, 188, 212, 0.25); }
+        .def-card .icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+        .def-card .icon.blue { background: rgba(57, 73, 171, 0.2); }
+        .def-card .icon.cyan { background: rgba(0, 188, 212, 0.2); }
+        .def-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
+        .def-card p { color: #8b949e; font-size: 0.88rem; line-height: 1.7; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.5rem; }
+        .stat-box { background: rgba(13, 17, 23, 0.5); border-radius: 12px; padding: 1.25rem 0.75rem; text-align: center; border: 1px solid rgba(48, 54, 61, 0.3); }
+        .stat-box .val { font-size: 1.4rem; font-weight: 800; color: #00bcd4; }
+        .stat-box .lbl { font-size: 0.72rem; color: #8b949e; margin-top: 0.25rem; line-height: 1.3; }
+        .imp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .imp-card { background: rgba(22, 27, 34, 0.5); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 16px; padding: 2rem; }
+        .imp-card:hover { border-color: rgba(0, 188, 212, 0.25); }
+        .imp-card .emoji { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+        .imp-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
+        .imp-card p { color: #8b949e; font-size: 0.88rem; line-height: 1.7; }
+        .imp-card ul { margin-top: 0.75rem; padding-left: 1.25rem; list-style: none; }
+        .imp-card ul li { color: #8b949e; font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.4rem; position: relative; padding-left: 1rem; }
+        .imp-card ul li::before { content: '→'; position: absolute; left: 0; color: #00bcd4; font-weight: 700; }
+        .inec-highlight { background: linear-gradient(135deg, rgba(26, 35, 126, 0.15), rgba(0, 188, 212, 0.08)); border: 1px solid rgba(48, 54, 61, 0.5); border-radius: 18px; padding: 2.5rem; margin-top: 2rem; text-align: center; }
+        .inec-highlight .inec-name { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #ff6f00, #ffa040); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.25rem; }
+        .inec-highlight .inec-full { color: #8b949e; font-size: 0.88rem; margin-bottom: 2rem; }
+        .func-list { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+        .func-list li { display: flex; gap: 1rem; padding: 1.25rem; background: rgba(22, 27, 34, 0.4); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 12px; }
+        .func-list .num { width: 32px; height: 32px; min-width: 32px; background: rgba(0, 188, 212, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: #00bcd4; }
+        .func-list .info h5 { font-weight: 700; margin-bottom: 0.25rem; font-size: 0.95rem; }
+        .func-list .info p { color: #8b949e; font-size: 0.85rem; line-height: 1.6; }
+        .process-steps { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+        .process-step { display: flex; gap: 1.25rem; align-items: flex-start; padding: 1.5rem; background: rgba(22, 27, 34, 0.4); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 14px; position: relative; }
+        .process-step:not(:last-child)::after { content: ''; position: absolute; left: 30px; bottom: -14px; width: 2px; height: 14px; background: #00bcd4; opacity: 0.4; }
+        .process-step .step-num { width: 44px; height: 44px; min-width: 44px; background: linear-gradient(135deg, #1a237e, #00bcd4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #fff; }
+        .process-step .step-info h5 { font-weight: 700; margin-bottom: 0.3rem; font-size: 1rem; }
+        .process-step .step-info p { color: #8b949e; font-size: 0.88rem; line-height: 1.7; }
+        .var-table-wrap { background: rgba(22, 27, 34, 0.5); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 16px; overflow: hidden; margin-top: 2rem; }
+        .var-table { width: 100%; border-collapse: collapse; }
+        .var-table thead th { background: rgba(26, 35, 126, 0.25); padding: 1rem 1.25rem; text-align: left; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #3949ab; }
+        .var-table tbody td { padding: 0.85rem 1.25rem; font-size: 0.9rem; border-bottom: 1px solid rgba(48, 54, 61, 0.3); color: #8b949e; }
+        .var-table tbody td:first-child { font-weight: 600; color: #e6edf3; }
+        .var-table tbody tr:hover { background: rgba(0, 188, 212, 0.03); }
+        .apa-table-wrap { background: rgba(22, 27, 34, 0.5); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 16px; overflow: hidden; margin-top: 2rem; }
+        .apa-table-caption { padding: 1.5rem 2rem 0.75rem; }
+        .apa-table-caption .t-num { font-weight: 700; font-style: italic; display: block; margin-bottom: 0.2rem; font-size: 0.95rem; }
+        .apa-table-caption .t-desc { font-style: italic; color: #8b949e; font-size: 0.88rem; }
+        .apa-table { width: 100%; border-collapse: collapse; }
+        .apa-table thead th { background: rgba(26, 35, 126, 0.25); padding: 0.85rem 1rem; text-align: center; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #3949ab; }
+        .apa-table tbody td { padding: 0.75rem 1rem; text-align: center; font-size: 0.88rem; border-bottom: 1px solid rgba(48, 54, 61, 0.3); color: #8b949e; }
+        .apa-table tbody td:first-child { text-align: left; font-weight: 600; color: #e6edf3; }
+        .apa-table tfoot td { padding: 0.85rem 1rem; text-align: center; font-weight: 700; font-size: 0.88rem; border-top: 2px solid #3949ab; background: rgba(26, 35, 126, 0.1); }
+        .apa-note { padding: 1rem 2rem 1.25rem; font-size: 0.78rem; color: #8b949e; font-style: italic; border-top: 1px solid rgba(48, 54, 61, 0.4); line-height: 1.6; }
+        .chart-wrap { background: rgba(22, 27, 34, 0.5); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 16px; overflow: hidden; margin-top: 2rem; }        .chart-caption { padding: 1.5rem 2rem 0.75rem; }
+        .chart-caption .f-num { font-weight: 700; font-style: italic; display: block; margin-bottom: 0.2rem; font-size: 0.95rem; }
+        .chart-caption .f-desc { font-style: italic; color: #8b949e; font-size: 0.88rem; }
+        .chart-area { padding: 1rem 2rem 1.5rem; }
+        .bar-chart { display: flex; flex-direction: column; gap: 1.25rem; }
+        .bar-row { display: flex; align-items: center; gap: 1rem; }
+        .bar-label { width: 100px; min-width: 100px; font-size: 0.82rem; font-weight: 600; text-align: right; }
+        .bar-track { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+        .bar-mini { height: 10px; border-radius: 5px; }
+        .bar-mini.t1 { background: #3949ab; }
+        .bar-mini.t2 { background: #00bcd4; }
+        .bar-mini.t3 { background: #ff6f00; }
+        .bar-mini.t4 { background: #00c853; }
+        .bar-legend { display: flex; justify-content: center; gap: 1.5rem; padding: 0.75rem 2rem 1.25rem; border-top: 1px solid rgba(48, 54, 61, 0.4); flex-wrap: wrap; }
+        .bar-legend span { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: #8b949e; }
+        .bar-legend .swatch { width: 12px; height: 12px; border-radius: 3px; }
+        .chart-note { padding: 0 2rem 1.25rem; font-size: 0.78rem; color: #8b949e; font-style: italic; line-height: 1.6; }
+        .ref-box { background: rgba(22, 27, 34, 0.35); border: 1px solid rgba(48, 54, 61, 0.4); border-left: 4px solid #ff6f00; border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin-top: 1.5rem; font-size: 0.83rem; color: #8b949e; line-height: 1.8; }
+        .ref-box strong { color: #e6edf3; }
+        .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+        .glossary-item { background: rgba(22, 27, 34, 0.4); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 12px; padding: 1.25rem; }
+        .glossary-item dt { font-weight: 700; color: #00bcd4; font-size: 0.92rem; margin-bottom: 0.35rem; }
+        .glossary-item dd { color: #8b949e; font-size: 0.84rem; line-height: 1.6; }
+        .medias-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .media-card { background: rgba(22, 27, 34, 0.45); border: 1px solid rgba(48, 54, 61, 0.4); border-radius: 14px; padding: 1.75rem; text-align: center; }
+        .media-card .formula { font-size: 1.3rem; font-weight: 800; color: #00bcd4; margin: 0.75rem 0; font-family: 'Georgia', serif; }
+        .media-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .media-card p { color: #8b949e; font-size: 0.83rem; line-height: 1.6; }
+        .timeline { position: relative; margin-top: 2.5rem; padding-left: 40px; }
+        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #1a237e, #00bcd4, #ff6f00); }
+        .tl-item { position: relative; margin-bottom: 2rem; padding-left: 1.5rem; }
+        .tl-item::before { content: ''; position: absolute; left: -30px; top: 8px; width: 12px; height: 12px; background: #00bcd4; border-radius: 50%; border: 3px solid #0d1117; }
+        .tl-item .tl-year { font-size: 0.78rem; font-weight: 700; color: #00bcd4; margin-bottom: 0.2rem; }
+        .tl-item h5 { font-weight: 700; margin-bottom: 0.2rem; font-size: 0.95rem; }
+        .tl-item p { color: #8b949e; font-size: 0.85rem; line-height: 1.6; }
+        .footer { padding: 3rem 1.5rem; border-top: 1px solid rgba(48, 54, 61, 0.5); text-align: center; position: relative; z-index: 1; }
+        .footer p { color: #8b949e; font-size: 0.82rem; line-height: 1.8; }
+        .footer .brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 800; color: #e6edf3; margin-bottom: 0.5rem; }
+        .footer .credits { margin-top: 0.75rem; font-size: 0.8rem; color: #8b949e; }
+        .footer .rights { margin-top: 0.5rem; font-size: 0.75rem; color: #6e7681; }
+        @media (max-width: 768px) {
+            .grid-2, .imp-grid, .glossary-grid, .medias-grid { grid-template-columns: 1fr; }
+            .grid-4 { grid-template-columns: 1fr 1fr; }
+            .nav-inner { gap: 0.75rem; }
+            .nav a { font-size: 0.7rem; }
+            .apa-table { font-size: 0.75rem; }
+            .apa-table thead th, .apa-table tbody td, .apa-table tfoot td { padding: 0.5rem 0.4rem; }
+            .bar-label { width: 70px; min-width: 70px; font-size: 0.72rem; }
+        }
+        @media (max-width: 480px) {            .grid-4 { grid-template-columns: 1fr 1fr; }
+            .section { padding: 3.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="bg-deco">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#definicion">Definición</a>
+            <a href="#ramas">Ramas</a>
+            <a href="#proceso">Proceso</a>
+            <a href="#variables">Variables</a>
+            <a href="#medidas">Medidas</a>
+            <a href="#importancia">Importancia</a>
+            <a href="#inec">INEC</a>
+            <a href="#tabla-apa">Cuadro APA</a>
+            <a href="#grafico-apa">Gráfico APA</a>
+            <a href="#glosario">Glosario</a>
+            <a href="#historia">Historia</a>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge"><span class="dot"></span> 12 de Mayo — Día del Estadístico</div>
+            <h1>📊 Día del Estadístico — <span>12 de Mayo</span></h1>
+            <div class="hero-phrase">
+                Sin datos, eres solo otra persona con una opinión. Con estadística, eres alguien que puede transformar el mundo.
+            </div>
+            <div class="panama-badge">
+                <span class="flag">🇵🇦</span>
+                Celebrado en la República de Panamá — 12 de Mayo
+            </div>
+            <p style="margin-top: 1.5rem;">Una ciencia fundamental que transforma datos en conocimiento, evidencia en decisiones y la información en el motor del desarrollo social, económico y empresarial.</p>
+            <div class="hero-line"></div>
+        </div>
+    </section>
+    <section class="section" id="definicion">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Fundamentos</span></div>
+            <h2 class="section-title">¿Qué es la Estadística?</h2>
+            <p class="section-text">
+                La <strong>estadística</strong> es la ciencia que se ocupa de la <strong>recolección, organización, análisis, interpretación y presentación de datos</strong>. Proporciona un conjunto de métodos y técnicas sistemáticas que permiten tomar decisiones informadas bajo condiciones de incertidumbre, así como extraer conclusiones válidas y confiables a partir de la información disponible.
+            </p>
+            <p class="section-text">                Desde una perspectiva más amplia, la estadística no se limita simplemente a calcular números o elaborar gráficos. Es una <strong>disciplina científica transversal</strong> que ofrece herramientas para comprender la variabilidad inherente en los fenómenos naturales, sociales y económicos. Permite pasar de la observación individual al conocimiento general, de la intuición a la evidencia cuantitativa, y del dato aislado a la información con significado.
+            </p>
+            <p class="section-text">
+                El término "estadística" proviene de la palabra alemana <em>Statistik</em>, derivada del latín <em>status</em> (estado), ya que originalmente se utilizaba para describir datos relevantes sobre el estado o la situación de un país. Hoy, su alcance va mucho más allá de los censos gubernamentales y se aplica en todas las áreas del conocimiento humano.
+            </p>
+            <div class="card">
+                <h3>📌 Concepto Clave</h3>
+                <p>La estadística se puede definir como la <strong>ciencia del dato</strong>: estudia cómo recopilar información de manera sistemática, cómo resumirla de forma comprensible, cómo analizarla para descubrir patrones ocultos, y cómo presentar los resultados de manera que permitan tomar decisiones fundamentadas. Es, en esencia, el puente entre los datos brutos y el conocimiento accionable.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="ramas" style="background: rgba(26, 35, 126, 0.03);">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Clasificación</span></div>
+            <h2 class="section-title">Ramas de la Estadística</h2>
+            <p class="section-text">
+                La estadística se divide en dos grandes ramas, cada una con objetivos, métodos y aplicaciones específicas que se complementan entre sí.
+            </p>
+            <div class="grid-2">
+                <div class="def-card">
+                    <div class="icon blue">📊</div>
+                    <h4>Estadística Descriptiva</h4>
+                    <p>Se encarga de <strong>recopilar, organizar, resumir y presentar los datos</strong> de manera informativa y comprensible. No busca hacer inferencias más allá de los datos observados, sino describir las características del conjunto de datos analizado.</p>
+                    <p style="margin-top: 0.75rem;"><strong>Herramientas principales:</strong></p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.25rem; color: #8b949e; font-size: 0.85rem; line-height: 1.8;">
+                        <li>Medidas de tendencia central: media, mediana, moda</li>
+                        <li>Medidas de dispersión: rango, varianza, desviación estándar</li>
+                        <li>Medidas de posición: cuartiles, percentiles, deciles</li>
+                        <li>Representaciones gráficas: histogramas, gráficos de barras, diagramas circulares, polígonos de frecuencia</li>
+                        <li>Tablas de distribución de frecuencias</li>
+                    </ul>
+                </div>
+                <div class="def-card">
+                    <div class="icon cyan">🎯</div>
+                    <h4>Estadística Inferencial</h4>
+                    <p>Permite <strong>hacer predicciones, estimaciones y generalizaciones</strong> sobre una población completa a partir del estudio de una muestra representativa. Es la rama que permite ir más allá de los datos observados.</p>
+                    <p style="margin-top: 0.75rem;"><strong>Herramientas principales:</strong></p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.25rem; color: #8b949e; font-size: 0.85rem; line-height: 1.8;">
+                        <li>Estimación puntual y por intervalos de confianza</li>
+                        <li>Pruebas de hipótesis (paramétricas y no paramétricas)</li>
+                        <li>Análisis de varianza (ANOVA)</li>
+                        <li>Regresión lineal simple y múltiple</li>
+                        <li>Correlación y análisis de asociación</li>
+                        <li>Muestreo probabilístico y diseño experimental</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 2rem;">
+                <h3>📌 Diferencia entre Población y Muestra</h3>
+                <p>Una <strong>población</strong> es el conjunto completo de todos los elementos que comparten una característica común y sobre los cuales se desea obtener información. Una <strong>muestra</strong> es un subconjunto representativo y seleccionado de manera adecuada de esa población. La estadística descriptiva trabaja con los datos completos (población o muestra), mientras que la estadística inferencial utiliza la muestra para hacer afirmaciones sobre la población total.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="proceso">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Metodología</span></div>
+            <h2 class="section-title">El Proceso Estadístico</h2>
+            <p class="section-text">
+                Toda investigación estadística sigue una secuencia lógica de etapas que garantizan la validez y confiabilidad de los resultados obtenidos.
+            </p>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-num">1</div>
+                    <div class="step-info">
+                        <h5>Definición del Problema y Objetivos</h5>
+                        <p>Se identifica claramente la pregunta de investigación, se definen los objetivos del estudio, se establece la población de interés y se delimitan las variables que se van a medir.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">2</div>
+                    <div class="step-info">
+                        <h5>Recolección de Datos</h5>
+<p>Se identifica claramente la pregunta de investigación, se definen los objetivos del estudio, se establece la población de interés y se delimitan las variables que se van a medir.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">2</div>
+                    <div class="step-info">
+                        <h5>Recolección de Datos</h5>
+                        <p>Se diseñan los instrumentos de recolección (encuestas, cuestionarios, observaciones, experimentos) y se selecciona el método de muestreo adecuado. Los datos pueden ser primarios o secundarios.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">3</div>
+                    <div class="step-info">
+                        <h5>Organización y Clasificación</h5>
+                        <p>Los datos recolectados se organizan en tablas de frecuencias, se clasifican según las variables estudiadas y se preparan para el análisis, incluyendo depuración y codificación.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">4</div>
+                    <div class="step-info">
+                        <h5>Análisis Estadístico</h5>
+                        <p>Se aplican las técnicas estadísticas apropiadas según el tipo de datos y los objetivos del estudio: medidas de tendencia central, dispersión, pruebas de hipótesis, regresión, entre otros.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">5</div>
+                    <div class="step-info">
+                        <h5>Presentación e Interpretación</h5>
+                        <p>Los resultados se presentan mediante tablas, gráficos y resúmenes numéricos claros. Se interpretan los hallazgos en el contexto del problema original y se formulan recomendaciones basadas en la evidencia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="variables" style="background: rgba(26, 35, 126, 0.03);">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Clasificación de Datos</span></div>
+            <h2 class="section-title">Tipos de Variables Estadísticas</h2>
+            <p class="section-text">
+                Las variables son las características o propiedades que se miden u observan en los elementos de una población. Comprender los diferentes tipos de variables es esencial para seleccionar las técnicas estadísticas apropiadas.
+            </p>
+            <div class="var-table-wrap">
+                <table class="var-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Variable</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cualitativa Nominal</strong></td>
+                            <td>Categorías sin orden ni jerarquía. Solo se pueden contar frecuencias.</td>
+                            <td>Género, color de ojos, marca de producto, estado civil</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cualitativa Ordinal</strong></td>
+                            <td>Categorías con un orden o jerarquía definido entre ellas.</td>
+                            <td>Nivel de satisfacción (alto, medio, bajo), grado de instrucción</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cuantitativa Discreta</strong></td>
+                            <td>Valores numéricos enteros. Resultan de un proceso de conteo.</td>
+                            <td>Número de hijos, cantidad de empleados, unidades vendidas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cuantitativa Continua</strong></td>
+                            <td>Valores numéricos que pueden tomar cualquier valor dentro de un rango. Resultan de medición.</td>
+                            <td>Peso, estatura, temperatura, ingreso mensual, tiempo de entrega</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card" style="margin-top: 2rem;">
+                <h3>📌 Escalas de Medición</h3>
+                <p>Además de la clasificación por tipo, las variables se clasifican según su <strong>escala de medición</strong>: <strong>nominal</strong> (solo clasifica), <strong>ordinal</strong> (clasifica y ordena), <strong>intervalo</strong> (ordena y tiene distancia igual entre valores, pero sin cero absoluto) y <strong>razón</strong> (tiene todas las propiedades anteriores más un cero absoluto verdadero). Conocer la escala de medición determina qué operaciones matemáticas y pruebas estadísticas son válidas.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="medidas">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Análisis Descriptivo</span></div>
+            <h2 class="section-title">Medidas de Tendencia Central</h2>
+            <p class="section-text">
+                Las medidas de tendencia central son valores numéricos que representan el centro o punto medio de un conjunto de datos. Son las estadísticas más utilizadas para resumir información.
+            </p>
+            <div class="medias-grid">
+                <div class="media-card">
+                    <h4>Media Aritmética (Promedio)</h4>
+                    <div class="formula">x̄ = Σxᵢ / n</div>
+                    <p>Se obtiene sumando todos los valores y dividiendo entre el número total de observaciones. Es la medida más utilizada pero sensible a valores extremos.</p>
+                </div>
+                <div class="media-card">
+                    <h4>Mediana</h4>
+                    <div class="formula">Valor central</div>
+                    <p>Es el valor que ocupa la posición central cuando los datos están ordenados de menor a mayor. Divide el conjunto en dos partes iguales. Resistente a valores extremos.</p>
+                </div>
+                <div class="media-card">
+                    <h4>Moda</h4>
+                    <div class="formula">Valor más frecuente</div>
+                    <p>Es el valor que más veces se repite en el conjunto de datos. Un conjunto puede ser unimodal, bimodal o multimodal. Aplicable también a datos cualitativos.</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 2rem;">
+<h3>📌 Medidas de Dispersión</h3>
+                <p>Además de las medidas de tendencia central, es fundamental conocer cómo se distribuyen los datos alrededor del centro. Las <strong>medidas de dispersión</strong> incluyen el <strong>rango</strong> (diferencia entre el valor máximo y mínimo), la <strong>varianza</strong>, la <strong>desviación estándar</strong> y el <strong>coeficiente de variación</strong>.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="importancia" style="background: rgba(26, 35, 126, 0.03);">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Aplicaciones</span></div>
+            <h2 class="section-title">Importancia de la Estadística en el Área Empresarial</h2>
+            <p class="section-text">
+                En el mundo empresarial contemporáneo, la estadística se ha convertido en una herramienta indispensable. Las organizaciones que basan sus decisiones en datos tienen una ventaja competitiva significativa.
+            </p>
+            <div class="imp-grid">
+                <div class="imp-card">
+                    <span class="emoji"></span>
+                    <h4>Administración</h4>
+                    <p>La estadística permite a los administradores tomar decisiones fundamentadas en evidencia cuantitativa, facilitando la planificación estratégica y la optimización de recursos.</p>
+                    <ul>
+                        <li>Evaluación del desempeño organizacional mediante KPIs</li>
+                        <li>Análisis de productividad y eficiencia operativa</li>
+                        <li>Control estadístico de calidad en procesos</li>
+                        <li>Presupuestación basada en proyecciones estadísticas</li>
+                        <li>Gestión de riesgos mediante modelos probabilísticos</li>
+                    </ul>
+                </div>
+                <div class="imp-card">
+                    <span class="emoji">🎯</span>
+                    <h4>Mercadeo</h4>
+                    <p>El mercadeo moderno depende enormemente de la estadística para comprender al consumidor y diseñar estrategias efectivas.</p>
+                    <ul>
+                        <li>Segmentación de mercados mediante análisis cluster</li>
+                        <li>Estudios de satisfacción del cliente y NPS</li>
+                        <li>Análisis del comportamiento de compra</li>
+                        <li>Pruebas A/B para optimización de campañas</li>
+                        <li>Estudios de viabilidad de nuevos productos</li>
+                    </ul>
+                </div>
+                <div class="imp-card">
+                    <span class="emoji">📢</span>
+                    <h4>Promoción</h4>
+                    <p>Las estrategias promocionales requieren datos estadísticos para determinar los canales más efectivos y optimizar presupuestos.</p>
+                    <ul>
+                        <li>Medición del ROI de campañas publicitarias</li>
+                        <li>Análisis de alcance, frecuencia e impacto</li>
+                        <li>Optimización de presupuestos promocionales</li>
+                        <li>Análisis de engagement en redes sociales</li>
+                        <li>Estudios de recordación de marca</li>
+                    </ul>
+                </div>
+                <div class="imp-card">
+                    <span class="emoji">💰</span>
+                    <h4>Ventas</h4>
+                    <p>El análisis estadístico aplicado a las ventas permite pronosticar la demanda y diseñar estrategias de precios basadas en el mercado.</p>
+                    <ul>
+                        <li>Pronóstico de ventas mediante series de tiempo</li>
+                        <li>Análisis de regresión para factores de venta</li>
+                        <li>Establecimiento de cuotas realistas</li>
+                        <li>Análisis de estacionalidad y patrones cíclicos</li>
+                        <li>Optimización de precios mediante elasticidad</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="inec">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Sistema Nacional</span></div>
+            <h2 class="section-title">Relevancia del Sistema Estadístico Nacional y el INEC</h2>
+            <p class="section-text">
+                El <strong>Sistema Estadístico Nacional (SEN)</strong> es el conjunto articulado de organismos e instituciones del sector público encargados de producir, coordinar, normalizar y difundir la información estadística oficial de un país. Su existencia garantiza que los datos sean <strong>comparables, confiables, oportunos y accesibles</strong>.
+            </p>
+            <p class="section-text">
+                El SEN opera bajo principios de <strong>descentralización operativa y coordinación central</strong>. Cada institución pública produce estadísticas de su ámbito, pero el organismo rector establece las normas metodológicas y los estándares de calidad.
+            </p>
+            <div class="inec-highlight">
+                <div class="inec-name">INEC</div>
+                <div class="inec-full">Instituto Nacional de Estadística y Censos — República de Panamá</div>
+                <div class="grid-4">
+                    <div class="stat-box">
+                        <div class="val">4.3M</div>
+                        <div class="lbl">Población estimada (2024)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="val">10</div>
+                        <div class="lbl">Provincias</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="val">75</div>
+                        <div class="lbl">Distritos</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="val">1952</div>
+                        <div class="lbl">Año de fundación</div>
+                    </div>
+                </div>
+            </div>
+            <p class="section-text" style="margin-top: 2rem;">
+                El <strong>Instituto Nacional de Estadística y Censos (INEC)</strong> es el organismo rector del Sistema Estadístico Nacional en la República de Panamá. Creado en 1952, tiene la responsabilidad de planificar, coordinar, ejecutar y difundir las actividades estadísticas del país.
+            </p>
+            <ul class="func-list">
+                <li>
+                    <div class="num">1</div>
+                    <div class="info">
+                        <h5>Censos Nacionales de Población y Vivienda</h5>
+                        <p>Planificación y ejecución de los censos nacionales periódicos, que proporcionan información demográfica, social y económica fundamental para la planificación del desarrollo nacional y la distribución de recursos.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="num">2</div>
+                    <div class="info">
+                        <h5>Encuestas Nacionales Continuas</h5>
+                        <p>Realización de encuestas nacionales sobre empleo, ingresos, gastos y condiciones de vida que monitorean indicadores sociales y económicos de manera periódica.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="num">3</div>
+                    <div class="info">
+                        <h5>Indicadores Económicos y Sociales</h5>
+                        <p>Producción del Índice de Precios al Consumidor (IPC) para medir la inflación, indicadores de pobreza, estadísticas de educación, salud y medio ambiente.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="num">4</div>
+                    <div class="info">
+                        <h5>Coordinación del Sistema Estadístico Nacional</h5>
+                        <p>Articulación y normalización de la producción estadística de todas las instituciones públicas, asegurando la calidad y comparabilidad de los datos oficiales de Panamá.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="num">5</div>
+                    <div class="info">
+                        <h5>Registro Estadístico de Empresas</h5>
+                        <p>Mantenimiento del Directorio Nacional de Empresas que constituye el marco de referencia para las encuestas económicas y proporciona información sobre el tejido productivo del país.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="section" id="tabla-apa" style="background: rgba(26, 35, 126, 0.03);">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Ejemplo Ilustrativo</span></div>
+            <h2 class="section-title">Cuadro Estadístico con Normas APA (7ma edición)</h2>
+            <p class="section-text">
+                Las normas APA establecen lineamientos específicos para la presentación de tablas estadísticas. Cada tabla debe tener un número y un título descriptivo, evitar líneas verticales innecesarias e incluir notas que expliquen abreviaturas y la fuente de los datos.
+            </p>
+            <div class="apa-table-wrap">
+                <div class="apa-table-caption">
+                    <span class="t-num">Tabla 1</span>
+                    <span class="t-desc">Ventas Trimestrales por Categoría de Producto en una Empresa Retail Panameña (en millones de B/.), Año Fiscal 2024</span>
+                </div>
+                <table class="apa-table">
+                    <thead>
+                        <tr>
+                            <th>Categoría de Producto</th>
+                            <th>T1<br><small style="font-weight:400;text-transform:none;">Ene–Mar</small></th>
+                            <th>T2<br><small style="font-weight:400;text-transform:none;">Abr–Jun</small></th>
+                            <th>T3<br><small style="font-weight:400;text-transform:none;">Jul–Sep</small></th>
+                            <th>T4<br><small style="font-weight:400;text-transform:none;">Oct–Dic</small></th>
+                            <th>Total<br>Anual</th>
+                            <th>% del<br>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Electrónica y Tecnología</td>
+ <td>12.5</td>
+                            <td>14.2</td>
+                            <td>13.8</td>
+                            <td>18.6</td>
+                            <td>59.1</td>
+                            <td>22.9</td>
+                        </tr>
+                        <tr>
+                            <td>Alimentos y Bebidas</td>
+                            <td>22.3</td>
+                            <td>24.1</td>
+                            <td>23.7</td>
+                            <td>28.5</td>
+                            <td>98.6</td>
+                            <td>38.2</td>
+                        </tr>
+                        <tr>
+                            <td>Ropa y Accesorios</td>
+                            <td>8.7</td>
+                            <td>11.3</td>
+                            <td>9.5</td>
+                            <td>15.2</td>
+                            <td>44.7</td>
+                            <td>17.3</td>
+                        </tr>
+                        <tr>
+                            <td>Hogar y Decoración</td>
+                            <td>6.4</td>
+                            <td>7.8</td>
+                            <td>8.2</td>
+                            <td>10.1</td>
+                            <td>32.5</td>
+                            <td>12.6</td>
+                        </tr>
+                        <tr>
+                            <td>Deportes y Recreación</td>
+                            <td>4.2</td>
+                            <td>5.6</td>
+                            <td>6.1</td>
+                            <td>7.3</td>
+                            <td>23.2</td>
+                            <td>9.0</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total General</td>
+                            <td>54.1</td>
+                            <td>63.0</td>
+                            <td>61.3</td>
+                            <td>79.7</td>
+                            <td>258.1</td>
+                            <td>100.0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="apa-note">
+                    <em>Nota.</em> Datos simulados con fines educativos para ilustrar la presentación de un cuadro estadístico según las normas APA (7ma edición). Los valores representan ventas netas en millones de balboas panameñas (B/.). T1–T4 = trimestres del año fiscal. Elaboración propia.
+                </div>
+            </div>
+            <div class="ref-box">
+                <strong>Referencia APA para tabla:</strong><br>
+                Elaboración propia. (2026). <em>Ventas trimestrales por categoría de producto en una empresa retail panameña (en millones de B/.), año fiscal 2024</em> [Tabla]. Mural Día del Estadístico, Universidad. Normas APA, 7ma edición.
+            </div>
+        </div>
+    </section>
+    <section class="section" id="grafico-apa">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Ejemplo Ilustrativo</span></div>
+            <h2 class="section-title">Gráfico Estadístico con Normas APA (7ma edición)</h2>
+            <p class="section-text">
+                Las figuras en formato APA deben ser claras, legibles y complementarias a las tablas. Cada figura debe tener un número y un título descriptivo. A continuación se presenta un gráfico de barras horizontales que visualiza los mismos datos del cuadro anterior.
+            </p>
+            <div class="chart-wrap">
+                <div class="chart-caption">
+                    <span class="f-num">Figura 1</span>
+                    <span class="f-desc">Comparación de Ventas Trimestrales por Categoría de Producto en una Empresa Retail Panameña (en millones de B/.), Año Fiscal 2024</span>
+                </div>
+                <div class="chart-area">
+                    <div class="bar-chart">
+                        <div class="bar-row">
+                            <div class="bar-label">Electrónica</div>
+                            <div class="bar-track">
+                                <div class="bar-mini t1" style="width: 67%;"></div>
+                                <div class="bar-mini t2" style="width: 76%;"></div>
+                                <div class="bar-mini t3" style="width: 74%;"></div>
+                                <div class="bar-mini t4" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Alimentos</div>
+                            <div class="bar-track">
+                                <div class="bar-mini t1" style="width: 78%;"></div>
+                                <div class="bar-mini t2" style="width: 85%;"></div>
+                                <div class="bar-mini t3" style="width: 83%;"></div>
+                                <div class="bar-mini t4" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Ropa</div>
+                            <div class="bar-track">
+                                <div class="bar-mini t1" style="width: 57%;"></div>
+                                <div class="bar-mini t2" style="width: 74%;"></div>
+                                <div class="bar-mini t3" style="width: 63%;"></div>
+                                <div class="bar-mini t4" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Hogar</div>
+                            <div class="bar-track">
+                                <div class="bar-mini t1" style="width: 63%;"></div>
+                                <div class="bar-mini t2" style="width: 77%;"></div>
+                                <div class="bar-mini t3" style="width: 81%;"></div>
+                                <div class="bar-mini t4" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Deportes</div>
+                            <div class="bar-track">
+                                <div class="bar-mini t1" style="width: 58%;"></div>
+                                <div class="bar-mini t2" style="width: 77%;"></div>
+                                <div class="bar-mini t3" style="width: 84%;"></div>
+                                <div class="bar-mini t4" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-legend">
+                    <span><span class="swatch" style="background:#3949ab;"></span> T1 (Ene–Mar)</span>
+                    <span><span class="swatch" style="background:#00bcd4;"></span> T2 (Abr–Jun)</span>
+                    <span><span class="swatch" style="background:#ff6f00;"></span> T3 (Jul–Sep)</span>
+                    <span><span class="swatch" style="background:#00c853;"></span> T4 (Oct–Dic)</span>
+                </div>
+                <div class="chart-note">
+                    <em>Nota.</em> Gráfico elaborado con fines educativos para ilustrar la presentación de datos estadísticos según las normas APA (7ma edición). Cada barra representa las ventas netas en millones de balboas panameñas (B/.) por categoría de producto y trimestre. Elaboración propia.
+                </div>
+            </div>
+            <div class="ref-box">
+                <strong>Referencia APA para figura:</strong><br>
+                Elaboración propia. (2026). <em>Comparación de ventas trimestrales por categoría de producto en una empresa retail panameña (en millones de B/.), año fiscal 2024</em> [Gráfico de barras horizontales]. Mural Día del Estadístico, Universidad. Normas APA, 7ma edición.
+            </div>
+        </div>
+    </section>
+    <section class="section" id="glosario" style="background: rgba(26, 35, 126, 0.03);">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Referencia Rápida</span></div>
+            <h2 class="section-title">Glosario de Términos Estadísticos</h2>
+            <p class="section-text">
+                Conceptos y términos fundamentales que todo estudiante y profesional debe conocer en el campo de la estadística.
+            </p>
+            <div class="glossary-grid">
+                <dl class="glossary-item">
+                    <dt>Población</dt>
+                    <dd>Conjunto completo de todos los elementos que comparten una característica común y sobre los cuales se desea obtener información.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Muestra</dt>
+                    <dd>Subconjunto representativo de la población, seleccionado mediante un método adecuado para inferir conclusiones sobre el total.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Variable</dt>
+                    <dd>Característica o propiedad que puede tomar diferentes valores y que se mide u observa en los elementos de una población.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Dato</dt>
+                    <dd>Valor individual observado o medido de una variable. Es la unidad básica de información en estadística.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Parámetro</dt>
+                    <dd>Valor numérico que describe una característica de toda la población (ejemplo: media poblacional μ).</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Estadístico</dt>
+                    <dd>Valor numérico que describe una característica de una muestra. Se usa para estimar parámetros poblacionales.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Frecuencia</dt>
+                    <dd>Número de veces que se repite un valor o categoría en un conjunto de datos. Puede ser absoluta, relativa o acumulada.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Distribución de Frecuencias</dt>
+                    <dd>Organización tabular de datos que muestra el número de observaciones en cada categoría o intervalo de valores.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Histograma</dt>
+                    <dd>Gráfico de barras verticales adyacentes que representa la distribución de frecuencias de una variable cuantitativa continua.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Desviación Estándar</dt>
+                    <dd>Medida de dispersión que indica cuánto se alejan en promedio los datos respecto a la media. Se expresa en las mismas unidades que los datos.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Correlación</dt>
+                    <dd>Medida del grado de asociación lineal entre dos variables cuantitativas. El coeficiente de Pearson (r) varía de -1 a +1.</dd>
+                </dl>
+                <dl class="glossary-item">
+                    <dt>Regresión</dt>
+                    <dd>Técnica estadística que modela la relación entre una variable dependiente y una o más variables independientes para hacer predicciones.</dd>
+                </dl>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="historia">
+        <div class="container">
+            <div class="section-label"><div class="line"></div><span>Trayectoria</span></div>
+            <h2 class="section-title">Breve Historia de la Estadística</h2>
+            <p class="section-text">
+                La estadística ha evolucionado a lo largo de miles de años, desde los primeros censos de las civilizaciones antiguas hasta las técnicas sofisticadas de análisis de datos del siglo XXI.
+            </p>
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-year">3000 a.C.</div>
+                    <h5>Primeros Registros en Civilizaciones Antiguas</h5>
+                    <p>Los babilonios realizaban censos para fines tributarios. En Egipto, los faraones ordenaban conteos de población y ganado. En China, se registraban datos agrícolas y demográficos.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">Siglo XVII</div>
+                    <h5>John Graunt y las Tablas de Mortalidad (1662)</h5>
+                    <p>Publica el primer estudio estadístico moderno analizando registros de nacimientos y defunciones de Londres, sentando las bases de la demografía y la epidemiología.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">1835</div>
+                    <h5>Adolphe Quetelet y la Física Social</h5>
+                    <p>Aplica la teoría de la probabilidad a las ciencias sociales, introduce el concepto del "hombre promedio" y establece que los fenómenos sociales siguen patrones estadísticos regulares.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">1900</div>
+                    <h5>Karl Pearson — Padre de la Estadística Moderna</h5>
+                    <p>Desarrolla el test chi-cuadrado, el coeficiente de correlación y funda el Departamento de Estadística Aplicada en el University College de Londres.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">1920s</div>
+<h5>Karl Pearson — Padre de la Estadística Moderna</h5>
+                    <p>Desarrolla el test chi-cuadrado, el coeficiente de correlación y funda el Departamento de Estadística Aplicada en el University College de Londres.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">1920s</div>
+                    <h5>Ronald A. Fisher — Revolución en el Diseño Experimental</h5>
+                    <p>Desarrolla el análisis de varianza (ANOVA), los principios del diseño experimental, la máxima verosimilitud y la distribución F.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">1950s–1980s</div>
+                    <h5>Era de la Computación y la Estadística Digital</h5>
+                    <p>El desarrollo de las computadoras permite el análisis de grandes volúmenes de datos. Se crean los primeros paquetes estadísticos (SPSS, SAS, Stata).</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">Siglo XXI</div>
+                    <h5>Big Data, Ciencia de Datos e Inteligencia Artificial</h5>
+                    <p>La estadística se integra con la ciencia de datos, el aprendizaje automático y la inteligencia artificial. Se analizan volúmenes masivos de datos en tiempo real en todas las industrias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <p class="brand">📊 Día del Estadístico — 12 de Mayo</p>
+        <p class="credits">
+            Creado por el grupo de Segundo Año de la Licenciatura en Administración de Mercadeo, Promoción y Ventas
+        </p>
+        <p class="rights">
+            © 2026 — Todos los derechos reservados. Los datos presentados en las tablas y gráficos son simulados con fines educativos.
+        </p>
+    </footer>
+    <script>
+        window.addEventListener('scroll', function() {
+            var scrollTop = window.scrollY;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+        document.querySelectorAll('.nav a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```
